@@ -54,8 +54,8 @@ public class WindowFrame implements KeyListener {
 		
 		CardinalLocation counter = CardinalLocation.NORTH_WEST;
 		
-		for(int x=0; x<panelRows; x++) {
-			for(int y=0; y<panelColumns; y++) {
+		for(int y=0; y<panelRows; y++) {
+			for(int x=0; x<panelColumns; x++) {
 				panelHolder[x][y] = new Panel(counter, new NullPattern());
 				//panelHolder[x][y].setImage("icon.png");
 				frame.add(panelHolder[x][y]);
@@ -65,12 +65,6 @@ public class WindowFrame implements KeyListener {
 		
 		gameEngine = new GameEngine();
 		stack = gameEngine.getPatternStack();
-	
-		//panelHolder[0][0].setImage(::);
-		
-		//panelHolder[1][0].set(gui.getPanel(CardinalLocation.NORTH));
-		//panelHolder[1][0].set(gui.getPanel(CardinalLocation.NORTH));
-		//panelHolder[2][0].set(gui.getPanel(CardinalLocation.NORTH));
 
 		panelHolder[1][0].setPattern(new Blue("Blue","Blue", Color.BLUE));
 		panelHolder[2][1].setPattern(new Green("Green","Green", Color.GREEN));
@@ -158,12 +152,7 @@ public class WindowFrame implements KeyListener {
 		}
 		
 		panelHolder[1][1].setPattern(stack.top);
-		if(out == "true") {
-			score++;
-			System.out.println(out);
-		} else {
-			System.out.println("Error");
-		}
+
 	}
 	
 	private void updateFrame() {
