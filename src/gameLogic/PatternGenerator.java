@@ -1,4 +1,4 @@
-package gamefunctions;
+package gameLogic;
 
 import java.awt.Color;
 import java.util.Random;
@@ -31,8 +31,7 @@ public class PatternGenerator {
 			case 4:
 				return new Orange(patternID, "Orange", Color.ORANGE);
 			default:
-				// Error
-				return null;
+				return new NullPattern();
 		}
 	}
 }

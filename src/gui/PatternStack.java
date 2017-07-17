@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 import javax.swing.JPanel;
 
-import gamefunctions.PatternGenerator;
+import gameLogic.PatternGenerator;
 import pattern.Patterns;
 
 public class PatternStack {
@@ -40,8 +40,6 @@ public class PatternStack {
 	public Patterns pop() {
 		Patterns temp = top;
 		top = stack.pop();
-		if(top == null) { System.out.println("top is null");}
-		else if (temp == null) { System.out.println("temp is null");}
 		loadColor();
 		return temp;
 	}
