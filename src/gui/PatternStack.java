@@ -1,15 +1,9 @@
 package gui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.util.LinkedList;
 
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 import gamefunctions.PatternGenerator;
 import pattern.Patterns;
@@ -19,7 +13,8 @@ public class PatternStack {
 	JPanel panel;
 	LinkedList<Patterns> stack;
 	PatternGenerator pRNG;
-	Patterns currentPattern;
+	Patterns top;
+	//Patterns currentPattern;
 	
 	public PatternStack(int maxPatterns, int initialLoad) {
 		panel = new JPanel();
@@ -28,7 +23,7 @@ public class PatternStack {
 		pRNG = new PatternGenerator(maxPatterns);
 		stack = new LinkedList<Patterns>();
 		reloadStack(initialLoad);
-		currentPattern = stack.getFirst();
+		top = stack.getFirst();
 		loadColor();
 	}
 	
@@ -39,12 +34,14 @@ public class PatternStack {
 	}
 	
 	public void loadColor() {
-		panel.setBackground(currentPattern.getColor());
+		panel.setBackground(top.getColor());
 	}
 	
 	public Patterns pop() {
-		Patterns temp = currentPattern;
-		currentPattern = stack.pop();
+		Patterns temp = top;
+		top = stack.pop();
+		if(top == null) { System.out.println("top is null");}
+		else if (temp == null) { System.out.println("temp is null");}
 		loadColor();
 		return temp;
 	}

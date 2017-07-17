@@ -67,31 +67,34 @@ public class WindowFrame implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		String out = "null";
-		Patterns p = stack.pop();
-		if (p == null) System.out.println("p is null");
-		
 		switch(e.getKeyCode()) {
 			case KeyEvent.VK_UP:
+				Patterns p = stack.pop();
 				System.out.println(p.getPatternName() + gui.getPanel(CardinalLocation.NORTH).getPattern().getPatternName());
 				out = gui.getPanel(CardinalLocation.NORTH).patternMatches(p) ? "true":"false";
-				e.consume();
+				break;
 			case KeyEvent.VK_DOWN:
-				System.out.println(p.getPatternName() + gui.getPanel(CardinalLocation.SOUTH).getPattern().getPatternName());
-				out = gui.getPanel(CardinalLocation.SOUTH).patternMatches(p) ? "true":"false";
-				e.consume();
+				Patterns p1 = stack.pop();
+				System.out.println(p1.getPatternName() + gui.getPanel(CardinalLocation.SOUTH).getPattern().getPatternName());
+				out = gui.getPanel(CardinalLocation.SOUTH).patternMatches(p1) ? "true":"false";
+				break;
 			case KeyEvent.VK_LEFT:
-				System.out.println(p.getPatternName() + gui.getPanel(CardinalLocation.WEST).getPattern().getPatternName());
-				out = gui.getPanel(CardinalLocation.WEST).patternMatches(p) ? "true":"false";
-				e.consume();
+				Patterns p2 = stack.pop();
+				System.out.println(p2.getPatternName() + gui.getPanel(CardinalLocation.WEST).getPattern().getPatternName());
+				out = gui.getPanel(CardinalLocation.WEST).patternMatches(p2) ? "true":"false";
+				break;
 			case KeyEvent.VK_RIGHT:
-				System.out.println(p.getPatternName() + gui.getPanel(CardinalLocation.EAST).getPattern().getPatternName());
-				out = gui.getPanel(CardinalLocation.EAST).patternMatches(p) ? "true":"false";
-				e.consume();
+				Patterns p3 = stack.pop();
+				System.out.println(p3.getPatternName() + gui.getPanel(CardinalLocation.EAST).getPattern().getPatternName());
+				out = gui.getPanel(CardinalLocation.EAST).patternMatches(p3) ? "true":"false";
+				break;
 			case KeyEvent.VK_SPACE:
-				e.consume();
+				break;
 			case KeyEvent.VK_ESCAPE:
-				e.consume();
 				endGame();
+				break;
+			default:
+				break;
 		}
 		
 		if(out == "true") {

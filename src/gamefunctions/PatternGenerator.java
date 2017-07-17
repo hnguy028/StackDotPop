@@ -20,15 +20,15 @@ public class PatternGenerator {
 		String patternID = id.toString();
 		
 		switch(id) {
-			case 1:
+			case 0:
 				return new Blue(patternID, "Blue", Color.BLUE);
-			case 2:
+			case 1:
 				return new Green(patternID, "Green", Color.GREEN);
-			case 3: 
+			case 2: 
 				return new Yellow(patternID, "Yellow", Color.YELLOW);
-			case 4:
+			case 3:
 				return new Red(patternID, "Red", Color.RED);
-			case 5:
+			case 4:
 				return new Orange(patternID, "Orange", Color.ORANGE);
 			default:
 				// Error
