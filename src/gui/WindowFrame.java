@@ -66,10 +66,14 @@ public class WindowFrame implements KeyListener {
 		gameEngine = new GameEngine();
 		stack = gameEngine.getPatternStack();
 
-		panelHolder[1][0].setPattern(new Blue("Blue","Blue", Color.BLUE));
-		panelHolder[2][1].setPattern(new Green("Green","Green", Color.GREEN));
-		panelHolder[1][2].setPattern(new Yellow("Yellow","Yellow", Color.YELLOW));
-		panelHolder[0][1].setPattern(new Red("Red","Red", Color.RED));
+		//panelHolder[1][0].setPattern(new Blue("Blue","Blue", Color.BLUE));
+		panelHolder[1][0].setPattern(new Blue("Blue","BlueOrb.png"));
+		panelHolder[2][1].setPattern(new Green("Green","GreenOrb.png"));
+		//panelHolder[2][1].setPattern(new Green("Green","Green", Color.GREEN));
+		panelHolder[1][2].setPattern(new Yellow("Yellow","YellowOrb.png"));
+		//panelHolder[1][2].setPattern(new Yellow("Yellow","Yellow", Color.YELLOW));
+		panelHolder[0][1].setPattern(new Red("Red","RedOrb.png"));
+		//panelHolder[0][1].setPattern(new Red("Red","Red", Color.RED));
 		
 		panelHolder[1][1].setPattern(stack.top);
 		updateFrame();

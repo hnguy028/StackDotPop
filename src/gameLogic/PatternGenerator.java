@@ -1,6 +1,5 @@
 package gameLogic;
 
-import java.awt.Color;
 import java.util.Random;
 
 import pattern.*;
@@ -21,15 +20,15 @@ public class PatternGenerator {
 		
 		switch(id) {
 			case 0:
-				return new Blue(patternID, "Blue", Color.BLUE);
+				return new Blue(patternID, "BlueOrb.png");
 			case 1:
-				return new Green(patternID, "Green", Color.GREEN);
+				return new Green(patternID, "GreenOrb.png");
 			case 2: 
-				return new Yellow(patternID, "Yellow", Color.YELLOW);
+				return new Yellow(patternID, "YellowOrb.png");
 			case 3:
-				return new Red(patternID, "Red", Color.RED);
+				return new Red(patternID, "RedOrb.png");
 			case 4:
-				return new Orange(patternID, "Orange", Color.ORANGE);
+				return new Orange(patternID, "OrangeOrb.png");
 			default:
 				return new NullPattern();
 		}

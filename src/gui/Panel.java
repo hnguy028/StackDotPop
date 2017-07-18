@@ -21,7 +21,7 @@ public class Panel extends JPanel{
 	
 	public Panel(CardinalLocation _location, Patterns _pattern) {
 		// Set transparent background (alpha=0)
-		setBackground(_pattern.getColor());
+		setBackground(new Color(0,0,0,0));
 		location = _location;
 		pattern = _pattern;
 		label = new JLabel(); 
@@ -42,10 +42,14 @@ public class Panel extends JPanel{
 	
 	public void setPattern(Patterns _pattern) {
 		pattern = _pattern;
-		setBackground(_pattern.getColor());
+		setImage(pattern.getPatternName());
 	}
 	
 	public void setImage(String img) {
-		label.setIcon(new ImageIcon(new ImageIcon("resources/" + img).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT)));
+		label.setIcon(new ImageIcon(new ImageIcon("resources/" + img).getImage().getScaledInstance(125, 125, Image.SCALE_DEFAULT)));
+	}
+	
+	public void rotate() {
+		label
 	}
 }

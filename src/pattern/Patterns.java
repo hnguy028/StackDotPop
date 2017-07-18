@@ -1,7 +1,5 @@
 package pattern;
 
-import java.awt.Color;
-
 /**
  * @author Hieu
  *
@@ -11,17 +9,17 @@ public abstract class Patterns{
 
 	private String patternID;
 	private String patternName;
-	private Color color;
+	//private Color color;
 
 	/**
 	 * @param _id
 	 * @param name
 	 * @param _color
 	 */
-	public Patterns(String _id, String name, Color _color) {
+	public Patterns(String _id, String filename) {
 		patternID = _id;
-		patternName = name;
-		color = _color;
+		patternName = filename;
+		//color = _color;
 	}
 	
 	public String getPatternID() {
@@ -32,9 +30,9 @@ public abstract class Patterns{
 		return patternName;
 	}
 	
-	public Color getColor() {
+	/*public Color getColor() {
 		return color;
-	}
+	}*/
 
 	public boolean matches(Patterns pattern) {
 		//return (patternID.equalsIgnoreCase(pattern.getPatternID()) && color.equals(pattern.getColor()));
