@@ -1,10 +1,7 @@
 package gui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -18,9 +15,13 @@ import javax.swing.JLabel;
 import gameLogic.*;
 import pattern.*;
 
-public class WindowFrame implements KeyListener {
+public class WindowFrame implements KeyListener, Runnable {
 	
 	private static final String gameTitle = "StackDotPop";
+	
+	/* Thread variables */
+	private Thread thread;
+	private boolean running = false;
 	
 	private int frameHeight = 480;
 	private int frameWidth = 720;
@@ -57,7 +58,6 @@ public class WindowFrame implements KeyListener {
 		for(int y=0; y<panelRows; y++) {
 			for(int x=0; x<panelColumns; x++) {
 				panelHolder[x][y] = new Panel(counter, new NullPattern());
-				//panelHolder[x][y].setImage("icon.png");
 				frame.add(panelHolder[x][y]);
 				counter.next();
 			}
@@ -66,34 +66,62 @@ public class WindowFrame implements KeyListener {
 		gameEngine = new GameEngine();
 		stack = gameEngine.getPatternStack();
 
-		//panelHolder[1][0].setPattern(new Blue("Blue","Blue", Color.BLUE));
 		panelHolder[1][0].setPattern(new Blue("Blue","BlueOrb.png"));
-		panelHolder[1][0].setBackground(Color.BLACK);
 		panelHolder[2][1].setPattern(new Green("Green","GreenOrb.png"));
-		//panelHolder[2][1].setPattern(new Green("Green","Green", Color.GREEN));
 		panelHolder[1][2].setPattern(new Yellow("Yellow","YellowOrb.png"));
-		//panelHolder[1][2].setPattern(new Yellow("Yellow","Yellow", Color.YELLOW));
 		panelHolder[0][1].setPattern(new Red("Red","RedOrb.png"));
-		//panelHolder[0][1].setPattern(new Red("Red","Red", Color.RED));
 		
 		panelHolder[1][1].setPattern(stack.top);
 		updateFrame();
 		frame.pack();
 		frame.setVisible(true);
 		
-		startGame();
+		start();
 	}
 	
-	public void startGame() {
-		// count down
+	public synchronized void start() {
+		if(running)
+			return;
 		
-		frame.addKeyListener(this);
-		//endGame();
+		running = true;
+		thread = new Thread(this);
+		thread.start();
 	}
 	
-	public void endGame() {
-		System.out.println("GameOver");
+	public void run() {
+		// initialize keylistener
+		frame.addKeyListener(this);
+		
+		long previousTime = System.nanoTime();
+		final double numTicks = 60.0; // fps
+		double ns = 1000000000 / numTicks;
+		double delta = 0;
+		
+		while(running) {
+			long currentTime = System.nanoTime();
+			delta += (previousTime - currentTime) / ns;
+			previousTime = currentTime;
+			
+			if(delta >= 1) {
+				tick();
+				delta--;
+			}
+			
+			render();
+		}
+		stop();
 	}
+	
+	public synchronized void stop() {
+		if(!running)
+			return;
+		
+		running = false;
+		try {
+			thread.join();
+		} catch(InterruptedException e) { e.printStackTrace(); }
+		System.exit(1);
+	} 
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -123,6 +151,10 @@ public class WindowFrame implements KeyListener {
 		//if() {} 
 	}
 	
+	private void render() {
+		
+	}
+	
 	private void gameTick(KeyEvent e) {
 
 		String out = "null";
@@ -150,7 +182,7 @@ public class WindowFrame implements KeyListener {
 			case KeyEvent.VK_SPACE:
 				break;
 			case KeyEvent.VK_ESCAPE:
-				endGame();
+				stop();
 				break;
 			default:
 				break;
