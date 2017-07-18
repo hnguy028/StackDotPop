@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
@@ -15,6 +14,11 @@ import javax.swing.JLabel;
 import gameLogic.*;
 import pattern.*;
 
+/**
+ * @author hinguyen
+ *
+ * Main frame and thread of the game. Holds all game objects
+ */
 public class WindowFrame implements KeyListener, Runnable {
 	
 	private static final String gameTitle = "StackDotPop";
@@ -23,38 +27,58 @@ public class WindowFrame implements KeyListener, Runnable {
 	private Thread thread;
 	private boolean running = false;
 	
+	/* Frame Initial Configurations */
 	private int frameHeight = 480;
 	private int frameWidth = 720;
+	
+	/* Board Layout (3x3 grid containing panels for each object) */
 	private static final int panelRows = 3;
 	private static final int panelColumns = 3;
-	// Maximum number of patterns
+	
+	// Maximum number of panels
 	private static final int maxPatterns = 4;
-		
+	
+	/* Game Objects */
 	private JFrame frame;
 	private Panel[][] panelHolder;
 	private GameEngine gameEngine;
 	private PatternStack stack;
 	
-	private double timer = 0;
+	/* Game Informations */
+	// TODO : create separate class to hold this information
 	private int score = 0;
 	private int level = 1;
 		
+	
+	/**
+	 * Constructor 
+	 */
 	public WindowFrame() {
+		init();
+		start();
+	}
+	
+	/**
+	 * init() : Initializes the game objects
+	 */
+	public void init() {
 		// Initialize frame defaults
 		frame = new JFrame(gameTitle);		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setPreferredSize(new Dimension(frameWidth, frameHeight));
 		frame.setIconImage(new ImageIcon("resources/icon.png").getImage());
-		
+				
 		// Load board background image
 		try{ frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("resources/wood_background.jpg"))))); } catch(Exception e) {}
-		
-		// Initialize board grid
+				
+		// Set layout to be a grid
 		panelHolder = new Panel[panelRows][panelColumns];
 		frame.setLayout(new GridLayout(panelRows,panelColumns));
 		
+		/* TODO : probably won't need cardinal location, to be removed */
 		CardinalLocation counter = CardinalLocation.NORTH_WEST;
 		
+		// Initialize the panels to null
 		for(int y=0; y<panelRows; y++) {
 			for(int x=0; x<panelColumns; x++) {
 				panelHolder[x][y] = new Panel(counter, new NullPattern());
@@ -66,19 +90,28 @@ public class WindowFrame implements KeyListener, Runnable {
 		gameEngine = new GameEngine();
 		stack = gameEngine.getPatternStack();
 
+		// For testing, set a pattern to the 4 sides
 		panelHolder[1][0].setPattern(new Blue("Blue","BlueOrb.png"));
 		panelHolder[2][1].setPattern(new Green("Green","GreenOrb.png"));
 		panelHolder[1][2].setPattern(new Yellow("Yellow","YellowOrb.png"));
 		panelHolder[0][1].setPattern(new Red("Red","RedOrb.png"));
 		
+		// set stack to the center cell
 		panelHolder[1][1].setPattern(stack.top);
+		
+		// update the panels of the frame
 		updateFrame();
+		
 		frame.pack();
 		frame.setVisible(true);
 		
-		start();
+		// initialize keylistener
+		frame.addKeyListener(this);
 	}
 	
+	/**
+	 * start() : start the thread if its not already running
+	 */
 	public synchronized void start() {
 		if(running)
 			return;
@@ -88,9 +121,10 @@ public class WindowFrame implements KeyListener, Runnable {
 		thread.start();
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	public void run() {
-		// initialize keylistener
-		frame.addKeyListener(this);
 		
 		long previousTime = System.nanoTime();
 		final double numTicks = 60.0; // fps
@@ -112,6 +146,9 @@ public class WindowFrame implements KeyListener, Runnable {
 		stop();
 	}
 	
+	/**
+	 * stop() : stop the thread if its not already stopped 
+	 */
 	public synchronized void stop() {
 		if(!running)
 			return;
@@ -123,6 +160,9 @@ public class WindowFrame implements KeyListener, Runnable {
 		System.exit(1);
 	} 
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		switch(gameEngine.getState()) {
@@ -131,32 +171,49 @@ public class WindowFrame implements KeyListener, Runnable {
 		case GAME:
 			gameTick(e);
 			break;
+		case PAUSE_MENU:
+			System.out.println("GAME PAUSED");
+			if(e.getKeyCode() == KeyEvent.VK_P) {
+				gameEngine.setState(State.GAME);
+			}
+			break;
 		default:
 			break;
 			
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
+	 */
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
+	 */
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 	}
 	
+	/**
+	 * tick() :
+	 */
 	private void tick() {
 		//if() {} 
 	}
 	
+	/**
+	 * render() :
+	 */
 	private void render() {
 		
 	}
 	
 	private void gameTick(KeyEvent e) {
-
 		String out = "null";
 		switch(e.getKeyCode()) {
 			case KeyEvent.VK_UP:
@@ -181,6 +238,9 @@ public class WindowFrame implements KeyListener, Runnable {
 				break;
 			case KeyEvent.VK_SPACE:
 				break;
+			case KeyEvent.VK_P:
+				gameEngine.setState(State.PAUSE_MENU);
+				break;
 			case KeyEvent.VK_ESCAPE:
 				stop();
 				break;
@@ -190,6 +250,9 @@ public class WindowFrame implements KeyListener, Runnable {
 		panelHolder[1][1].setPattern(stack.top);
 	}
 	
+	/**
+	 * updateFrame() : iterate through all the cells of the frame and update the respective panels
+	 */
 	private void updateFrame() {
 		for(int y=0; y<panelRows; y++) {
 			for(int x=0; x<panelColumns; x++) {

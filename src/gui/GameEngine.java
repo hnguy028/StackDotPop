@@ -11,6 +11,7 @@ import pattern.*;
  * Contains all components for the game (ie jpanels, and the stack)
  */
 public class GameEngine {
+	// Current game state
 	private State STATE = State.START_MENU;
 	// Stack containing a list of patterns that need to be sorted and matched with the panels
 	private PatternStack stack;
@@ -32,6 +33,10 @@ public class GameEngine {
 	
 	public State getState() {
 		return STATE;
+	}
+	
+	public void setState(State _state) {
+		STATE = _state;
 	}
 	
 	public void setLevel(int level) {
