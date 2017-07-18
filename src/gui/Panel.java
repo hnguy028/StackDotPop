@@ -1,6 +1,8 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
@@ -47,9 +49,15 @@ public class Panel extends JPanel{
 	
 	public void setImage(String img) {
 		label.setIcon(new ImageIcon(new ImageIcon("resources/" + img).getImage().getScaledInstance(125, 125, Image.SCALE_DEFAULT)));
+		
 	}
 	
 	public void rotate() {
-		label
+		//label
 	}
+	
+	/*@Override
+	public void paint(Graphics g) {
+		//g.drawImage(arg0, arg1, arg2, arg3)
+	}*/
 }

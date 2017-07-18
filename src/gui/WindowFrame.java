@@ -68,6 +68,7 @@ public class WindowFrame implements KeyListener {
 
 		//panelHolder[1][0].setPattern(new Blue("Blue","Blue", Color.BLUE));
 		panelHolder[1][0].setPattern(new Blue("Blue","BlueOrb.png"));
+		panelHolder[1][0].setBackground(Color.BLACK);
 		panelHolder[2][1].setPattern(new Green("Green","GreenOrb.png"));
 		//panelHolder[2][1].setPattern(new Green("Green","Green", Color.GREEN));
 		panelHolder[1][2].setPattern(new Yellow("Yellow","YellowOrb.png"));
@@ -123,7 +124,7 @@ public class WindowFrame implements KeyListener {
 	}
 	
 	private void gameTick(KeyEvent e) {
-		
+
 		String out = "null";
 		switch(e.getKeyCode()) {
 			case KeyEvent.VK_UP:
@@ -154,9 +155,7 @@ public class WindowFrame implements KeyListener {
 			default:
 				break;
 		}
-		
 		panelHolder[1][1].setPattern(stack.top);
-
 	}
 	
 	private void updateFrame() {
