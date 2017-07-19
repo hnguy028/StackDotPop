@@ -4,7 +4,10 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -44,20 +47,20 @@ public class Panel extends JPanel{
 	
 	public void setPattern(Patterns _pattern) {
 		pattern = _pattern;
-		setImage(pattern.getPatternName());
-	}
-	
-	public void setImage(String img) {
-		label.setIcon(new ImageIcon(new ImageIcon("resources/" + img).getImage().getScaledInstance(125, 125, Image.SCALE_DEFAULT)));
-		
+		this.repaint();
+		//setImage(pattern.getPatternName());
 	}
 	
 	public void rotate() {
-		//label
+		
 	}
 	
-	/*@Override
+	@Override
 	public void paint(Graphics g) {
-		//g.drawImage(arg0, arg1, arg2, arg3)
-	}*/
+		super.paintComponent(g);
+		Image image = null;
+		try { image = ImageIO.read(new File("resources/" + pattern.getPatternName())); } catch (IOException e) { image=null; }
+		g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
+	}
+	
 }
