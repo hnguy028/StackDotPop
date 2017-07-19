@@ -71,13 +71,18 @@ public class WindowFrame implements KeyListener, Runnable {
 		
 		gameEngine = new GameEngine();
 
-		gamePanel.addPattern(1,0,new Blue("Blue","BlueOrb.png"));
-		gamePanel.addPattern(2,1,new Green("Green","GreenOrb.png"));
-		gamePanel.addPattern(1,2,new Yellow("Yellow","YellowOrb.png"));
-		gamePanel.addPattern(0,1,new Red("Red","RedOrb.png"));
+		gamePanel.addPattern(1,0,new Blue("Blue","BlueOrb"));
+		gamePanel.addPattern(2,1,new Green("Green","GreenOrb"));
+		gamePanel.addPattern(1,2,new Yellow("Yellow","YellowOrb"));
+		gamePanel.addPattern(0,1,new Red("Red","RedOrb"));
 		
 		// set stack to the center cell
-		gamePanel.addPattern(1,1,gameEngine.popStack());
+		if(gameEngine.topStack() == null) {
+			
+			
+		}
+		System.out.println(gameEngine.topStack().getFileName());
+		gamePanel.addPattern(1,1,gameEngine.topStack());
 		
 		// add components to frame
 		frame.add(gamePanel, BorderLayout.CENTER);
@@ -198,20 +203,16 @@ public class WindowFrame implements KeyListener, Runnable {
 		boolean out = false;
 		switch(e.getKeyCode()) {
 			case KeyEvent.VK_UP:
-				Patterns p = gameEngine.popStack();
-				out = gamePanel.matches(1,0,p);
+				out = gamePanel.matches(1,0,gameEngine.popStack());
 				break;
 			case KeyEvent.VK_DOWN:
-				Patterns p1 = gameEngine.popStack();
-				out = gamePanel.matches(1,2,p1);
+				out = gamePanel.matches(1,2,gameEngine.popStack());
 				break;
 			case KeyEvent.VK_LEFT:
-				Patterns p2 = gameEngine.popStack();
-				out = gamePanel.matches(0,1,p2);
+				out = gamePanel.matches(0,1,gameEngine.popStack());
 				break;
 			case KeyEvent.VK_RIGHT:
-				Patterns p3 = gameEngine.popStack();
-				out = gamePanel.matches(2,1,p3);
+				out = gamePanel.matches(2,1,gameEngine.popStack());
 				break;
 			case KeyEvent.VK_SPACE:
 				break;
@@ -224,7 +225,9 @@ public class WindowFrame implements KeyListener, Runnable {
 			default:
 				break;
 		}
-		((JPanelImage) gamePanel).addPattern(1,1,gameEngine.topStack());
+		System.out.println(out);
+		if(out) {gameEngine.addPoints(100);}
+		gamePanel.addPattern(1,1,gameEngine.topStack());
 		gamePanel.repaint();
 	}
 }

@@ -1,6 +1,5 @@
 package pattern;
 
-import java.awt.Graphics;
 import java.awt.Image;
 
 /**
@@ -10,6 +9,7 @@ import java.awt.Image;
  */
 public abstract class Patterns{
 
+	private static final String imgDir = "resources/";
 	private String patternID;
 	private String patternName;
 	private Image[] images;
@@ -26,11 +26,7 @@ public abstract class Patterns{
 		patternName = filename;
 		//color = _color;
 	}
-	
-	private void loadImages() {
-		// from filename load images from file
-	}
-	
+
 	public boolean matches(Patterns pattern) {
 		//return (patternID.equalsIgnoreCase(pattern.getPatternID()) && color.equals(pattern.getColor()));
 		return patternName.equalsIgnoreCase(pattern.getPatternName());
@@ -42,6 +38,10 @@ public abstract class Patterns{
 	
 	public String getPatternName() {
 		return patternName;
+	}
+	
+	public String getFileName() {
+		return imgDir + patternName + ".png";
 	}
 	
 	public Image getNextImage() {

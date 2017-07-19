@@ -28,9 +28,6 @@ public class GameEngine extends JPanel {
 	private int stackSize;
 	private int points;
 	
-	// Test Label
-	JLabel label;
-	
 	/**
 	 * Constructor : initializes 
 	 */
@@ -58,6 +55,11 @@ public class GameEngine extends JPanel {
 		
 	}
 	
+	public void addPoints(int point) {
+		points += point;
+		hud.updateNorth("Points: " + points, null, null);
+	}
+	
 	public void resetLevel() {
 		stack.reloadStack(levelLoad);
 	}
@@ -66,6 +68,7 @@ public class GameEngine extends JPanel {
 	 * Stack Methods 
 	 */
 	public Patterns popStack() {
+		hud.updateNorth(null, "Stack("+ stackSize + " / " + levelLoad +")", null);
 		stackSize--;
 		return stack.pop();
 	}
@@ -76,7 +79,7 @@ public class GameEngine extends JPanel {
 	
 	private void initHUD() {
 		hud = new HUD();
-		hud.setNorth(true, true);
+		hud.setNorth(true, true, true);
 	}
 	
 	private void loadHUD() {

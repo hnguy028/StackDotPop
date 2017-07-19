@@ -13,13 +13,13 @@ import javax.swing.JPanel;
  */
 public class HUD {
 	private JPanel north;
-	private JLabel nPoints, nStack;
+	private JLabel nPoints, nStack, nLevel;
 	
 	public HUD() {
 		
 	}
 	
-	public void setNorth(boolean points, boolean stack) {
+	public void setNorth(boolean points, boolean stack, boolean level) {
 		north = new JPanel();
 		
 		if(points) {
@@ -31,15 +31,24 @@ public class HUD {
 			nStack = new JLabel("Stack(25 / 25)");
 			north.add(nStack);
 		}
+		
+		if(level) {
+			nLevel = new JLabel("Level 1");
+			north.add(nLevel);
+		}
+		
+		
 			
 		
 	}
 	
-	public void updateNorth(String points, String stack) {
+	public void updateNorth(String points, String stack, String level) {
 		if(points != null)
 			nPoints.setText(points);
 		if(stack != null)
 			nStack.setText(stack);
+		if(level != null)
+			nLevel.setText(level);
 	}
 	
 	public JComponent getNorth() {

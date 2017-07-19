@@ -20,9 +20,10 @@ public class Panel extends JPanel{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	Patterns pattern;
-	CardinalLocation location;
-	JLabel label;
+	private Patterns pattern;
+	private CardinalLocation location;
+	private JLabel label;
+	private double angle;
 	
 	public Panel(CardinalLocation _location, Patterns _pattern) {
 		// Set transparent background (alpha=0)
@@ -56,10 +57,10 @@ public class Panel extends JPanel{
 	}
 	
 	@Override
-	public void paint(Graphics g) {
+	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Image image = null;
-		try { image = ImageIO.read(new File("resources/" + pattern.getPatternName())); } catch (IOException e) { image=null; }
+		try { image = ImageIO.read(new File(pattern.getFileName())); } catch (IOException e) { image=null; }
 		g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
 	}
 	

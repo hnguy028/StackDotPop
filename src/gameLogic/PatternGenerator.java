@@ -30,15 +30,15 @@ public class PatternGenerator {
 		// Return a pattern depending on the random id
 		switch(id) {
 			case 0:
-				return new Blue(patternID, "BlueOrb.png");
+				return new Blue(patternID, "BlueOrb");
 			case 1:
-				return new Green(patternID, "GreenOrb.png");
+				return new Green(patternID, "GreenOrb");
 			case 2: 
-				return new Yellow(patternID, "YellowOrb.png");
+				return new Yellow(patternID, "YellowOrb");
 			case 3:
-				return new Red(patternID, "RedOrb.png");
+				return new Red(patternID, "RedOrb");
 			case 4:
-				return new Orange(patternID, "OrangeOrb.png");
+				return new Orange(patternID, "OrangeOrb");
 			default:
 				return new NullPattern();
 		}
