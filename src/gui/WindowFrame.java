@@ -46,6 +46,9 @@ public class WindowFrame implements KeyListener, Runnable {
 	private JPanelImage gamePanel;
 	private GameEngine gameEngine;
 	
+	/* Debugging Variables*/
+	
+	
 	/**
 	 * Constructor 
 	 */
@@ -105,6 +108,7 @@ public class WindowFrame implements KeyListener, Runnable {
 		running = true;
 		thread = new Thread(this);
 		thread.start();
+		run();
 	}
 	
 	/* (non-Javadoc)
@@ -119,15 +123,17 @@ public class WindowFrame implements KeyListener, Runnable {
 		
 		while(running) {
 			long currentTime = System.nanoTime();
-			delta += (previousTime - currentTime) / ns;
+			delta += (currentTime - previousTime) / ns;
 			previousTime = currentTime;
 			
 			if(delta >= 1) {
+				/* Here we do the loop calculations ie. timer, and state checks */
 				tick();
 				delta--;
 			}
 			
-			render();
+			/* Here we handle the game logic for each loop iteration */
+			render(); 
 		}
 		stop();
 	}
@@ -155,7 +161,8 @@ public class WindowFrame implements KeyListener, Runnable {
 		case START_MENU:
 			break;
 		case GAME:
-			gameKeyPressed(e);
+			if(running) 
+				gameKeyPressed(e);
 			break;
 		case PAUSE_MENU:
 			System.out.println("GAME PAUSED");
@@ -189,14 +196,24 @@ public class WindowFrame implements KeyListener, Runnable {
 	 * tick() :
 	 */
 	private void tick() {
-		 
+		// Testing game loop
+		if(gameEngine.getState() != State.PAUSE_MENU) {
+			gameEngine.decrementTimer();
+			if(gameEngine.getTime() <= 0) {
+				System.out.println("Time Up");
+				gameEngine.setState(State.END_LEVEL);
+				gameEngine.addPoints(-100);
+				gameEngine.resetTimer();
+			}
+		}
+		// Testing game loop
 	}
 	
 	/**
 	 * render() :
 	 */
 	private void render() {
-		
+		// should contain switch statement of the game states and call the correct keypressed methods
 	}
 	
 	private void gameKeyPressed(KeyEvent e) {
@@ -204,15 +221,19 @@ public class WindowFrame implements KeyListener, Runnable {
 		switch(e.getKeyCode()) {
 			case KeyEvent.VK_UP:
 				out = gamePanel.matches(1,0,gameEngine.popStack());
+				gameEngine.resetTimer();
 				break;
 			case KeyEvent.VK_DOWN:
 				out = gamePanel.matches(1,2,gameEngine.popStack());
+				gameEngine.resetTimer();
 				break;
 			case KeyEvent.VK_LEFT:
 				out = gamePanel.matches(0,1,gameEngine.popStack());
+				gameEngine.resetTimer();
 				break;
 			case KeyEvent.VK_RIGHT:
 				out = gamePanel.matches(2,1,gameEngine.popStack());
+				gameEngine.resetTimer();
 				break;
 			case KeyEvent.VK_SPACE:
 				break;
@@ -225,9 +246,11 @@ public class WindowFrame implements KeyListener, Runnable {
 			default:
 				break;
 		}
+		
 		System.out.println(out);
-		if(out) {gameEngine.addPoints(100);}
+		if(out) {gameEngine.addPoints(100);} else {gameEngine.addPoints(-100);}
 		gamePanel.addPattern(1,1,gameEngine.topStack());
 		gamePanel.repaint();
+		gameEngine.checkLevelEnd();
 	}
 }

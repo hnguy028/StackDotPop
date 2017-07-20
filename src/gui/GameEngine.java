@@ -25,8 +25,11 @@ public class GameEngine extends JPanel {
 	private HUD hud;
 	// Initial size of the stack for the level
 	private int levelLoad = 25;
+	private int level = 1;
 	private int stackSize;
 	private int points;
+	
+	private int time = 600; // amount of time given to sort each pattern
 	
 	/**
 	 * Constructor : initializes 
@@ -57,19 +60,16 @@ public class GameEngine extends JPanel {
 	
 	public void addPoints(int point) {
 		points += point;
-		hud.updateNorth("Points: " + points, null, null);
+		hud.updateNorth("Points: " + points, null, null, null);
 	}
 	
 	public void resetLevel() {
 		stack.reloadStack(levelLoad);
 	}
 	
-	/*
-	 * Stack Methods 
-	 */
 	public Patterns popStack() {
-		hud.updateNorth(null, "Stack("+ stackSize + " / " + levelLoad +")", null);
 		stackSize--;
+		hud.updateNorth(null, "Stack("+ stackSize + " / " + levelLoad +")", null, null);
 		return stack.pop();
 	}
 	
@@ -79,12 +79,39 @@ public class GameEngine extends JPanel {
 	
 	private void initHUD() {
 		hud = new HUD();
-		hud.setNorth(true, true, true);
+		hud.setNorth(true, true, true, true);
 	}
 	
 	private void loadHUD() {
 		if(hud.getNorth() != null) {
 			add(hud.getNorth());
 		}
+	}
+	
+	/**
+	 * if stack reaches 0 increment level and levelLoad, as well as update the north label
+	 */
+	public void checkLevelEnd() {
+		if(stackSize <= 0) {
+			level++;
+			levelLoad *= level;
+			stackSize = levelLoad;
+			stack.reloadStack(levelLoad);
+			hud.updateNorth(null, "Stack("+ stackSize + " / " + levelLoad +")", "Level " + level, null);
+		}
+	}
+	
+	public void decrementTimer() {
+		time--;
+		hud.updateNorth(null, null, null, "Time: " + time);
+	}
+	
+	public void resetTimer() {
+		time = 600;
+		hud.updateNorth(null, null, null, "Time: " + time);
+	}
+	
+	public int getTime() {
+		return time;
 	}
 }
