@@ -2,21 +2,24 @@ package pattern;
 
 import java.awt.Image;
 
+import definitions.Variables;
+
 /**
  * @author Hieu
  *
- * Super Class of all patterns
+ * Abstract class of all patterns
  */
 public abstract class Patterns{
 
-	private static final String imgDir = "resources/";
+	// Directory containing pattern images
+	private static final String imgDir = Variables.imageDirectory;
+	// ID of pattern, used to compare 2 patterns
 	private String patternID;
+	// file name of the patter
 	private String patternName;
-	private Image[] images;
-	private int imageIndex = 0;
-	//private Color color;
 
 	/**
+	 * Constructor
 	 * @param _id
 	 * @param name
 	 * @param _color
@@ -24,12 +27,15 @@ public abstract class Patterns{
 	public Patterns(String _id, String filename) {
 		patternID = _id;
 		patternName = filename;
-		//color = _color;
 	}
 
+	/**
+	 * 
+	 * @param pattern
+	 * @return true if given pattern id, matches this pattern's id
+	 */
 	public boolean matches(Patterns pattern) {
-		//return (patternID.equalsIgnoreCase(pattern.getPatternID()) && color.equals(pattern.getColor()));
-		return patternName.equalsIgnoreCase(pattern.getPatternName());
+		return patternID.equalsIgnoreCase(pattern.getPatternID());
 	}
 	
 	public String getPatternID() {
@@ -43,16 +49,4 @@ public abstract class Patterns{
 	public String getFileName() {
 		return imgDir + patternName + ".png";
 	}
-	
-	public Image getNextImage() {
-		if(images[0] != null) {
-			int returnIndex = imageIndex;
-			imageIndex = (imageIndex + 1) % images.length;
-			return images[returnIndex];
-		}
-		return null;
-	}
-
-	// All child classes must override this method
-	abstract Patterns clone(Patterns pattern);
 }

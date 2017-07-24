@@ -22,18 +22,26 @@ public class PatternStack {
 	Patterns top;
 	
 	public PatternStack(int maxPatterns, int initialLoad) {
-		pRNG = new PatternGenerator(maxPatterns);
+		pRNG = new PatternGenerator();
 		stack = new LinkedList<Patterns>();
 		reloadStack(initialLoad);
 		top = stack.getFirst();
 	}
 	
+	/**
+	 * Loads stack with the given number of patterns
+	 * @param load
+	 */
 	public void reloadStack(int load) {
+		// iterate for the given number of times
 		for(int i=0; i < load; i++) {
-			stack.add(pRNG.nextPattern());
+			stack.add(pRNG.nextPattern()); // generate random pattern and add to stack
 		}
 	}
 	
+	/**
+	 * @return the current top pattern and set top to the next value
+	 */
 	public Patterns pop() {
 		Patterns temp = top;
 		top = stack.pop();

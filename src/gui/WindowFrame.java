@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import definitions.Variables;
 import gameLogic.*;
 import pattern.*;
 
@@ -24,8 +25,6 @@ import pattern.*;
  */
 public class WindowFrame implements KeyListener, Runnable {
 	
-	private static final String gameTitle = "StackDotPop";
-	
 	/* Thread variables */
 	private Thread thread;
 	private boolean running = false;
@@ -35,11 +34,11 @@ public class WindowFrame implements KeyListener, Runnable {
 	private int frameWidth = 720;
 	
 	/* Board Layout (3x3 grid containing panels for each object) */
-	private static final int panelRows = 3;
-	private static final int panelColumns = 3;
+	private static final int panelRows = Variables.panelRows;
+	private static final int panelColumns = Variables.panelColumns;
 	
 	// Maximum number of panels
-	private static final int maxPatterns = 4;
+	private static final int maxPatterns = Variables.maxPatterns;
 	
 	/* Game Objects */
 	private JFrame frame;
@@ -62,22 +61,22 @@ public class WindowFrame implements KeyListener, Runnable {
 	 */
 	public void init() {
 		// Initialize frame defaults
-		frame = new JFrame(gameTitle);		
+		frame = new JFrame(Variables.gameTitle);		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setPreferredSize(new Dimension(frameWidth, frameHeight));
-		frame.setIconImage(new ImageIcon("resources/icon.png").getImage());
+		frame.setIconImage(new ImageIcon(Variables.imageDirectory + Variables.iconFileName).getImage());
 		frame.setLayout(new BorderLayout());
 		
 		// Set game layout to be a grid
-		gamePanel = new JPanelImage("resources/wood_background.jpg", panelRows, panelColumns);
+		gamePanel = new JPanelImage(Variables.imageDirectory + Variables.backgroundFileName, panelRows, panelColumns);
 		gamePanel.setLayout(new GridLayout(panelRows,panelColumns));
 		
 		gameEngine = new GameEngine();
 
-		gamePanel.addPattern(1,0,new Blue("Blue","BlueOrb"));
-		gamePanel.addPattern(2,1,new Green("Green","GreenOrb"));
-		gamePanel.addPattern(1,2,new Yellow("Yellow","YellowOrb"));
-		gamePanel.addPattern(0,1,new Red("Red","RedOrb"));
+		gamePanel.addPattern(1,0,new Blue("0","BlueOrb"));
+		gamePanel.addPattern(2,1,new Green("1","GreenOrb"));
+		gamePanel.addPattern(1,2,new Yellow("2","YellowOrb"));
+		gamePanel.addPattern(0,1,new Red("3","RedOrb"));
 		
 		// set stack to the center cell
 		if(gameEngine.topStack() == null) {

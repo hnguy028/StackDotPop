@@ -2,29 +2,32 @@ package gameLogic;
 
 import java.util.Random;
 
+import definitions.Variables;
 import pattern.*;
 
 /**
  * @author hinguyen
  *
+ * This class generates random patterns
  */
 public class PatternGenerator {
 	
 	Random rng;
-	int maxPatterns;
+	int maxPatterns = Variables.maxPatterns;
 	
 	/**
 	 * Constructor
 	 * @param _maxPatterns
 	 */
-	public PatternGenerator(int _maxPatterns) {
-		maxPatterns = _maxPatterns;
+	public PatternGenerator() {
+		// initialize random number generator
 		rng = new Random();
 	}
 	
 	public Patterns nextPattern() {
-		// Generate a random int between 0 and maxPatterns
+		// Generate a random integer between 0 (inclusive) and maxPatterns (exclusive)
 		Integer id = rng.nextInt(maxPatterns);
+		// Set pattern id as the generated integer
 		String patternID = id.toString();
 		
 		// Return a pattern depending on the random id

@@ -22,16 +22,12 @@ public class Panel extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private Patterns pattern;
 	private CardinalLocation location;
-	private JLabel label;
-	private double angle;
 	
 	public Panel(CardinalLocation _location, Patterns _pattern) {
-		// Set transparent background (alpha=0)
+		// Set transparent background - new Color(r,g,b,alpha)
 		setBackground(new Color(0,0,0,0));
 		location = _location;
 		pattern = _pattern;
-		label = new JLabel(); 
-		add(label);
 	}
 	
 	public boolean patternMatches(Patterns _pattern) {
@@ -49,7 +45,6 @@ public class Panel extends JPanel{
 	public void setPattern(Patterns _pattern) {
 		pattern = _pattern;
 		this.repaint();
-		//setImage(pattern.getPatternName());
 	}
 	
 	public void rotate() {

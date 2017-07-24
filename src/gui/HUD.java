@@ -1,15 +1,19 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 /**
  * @author hinguyen
  *
- *	Container holding HUD components
+ * Container holding HUD components
+ * TODO : create separate setter and getters 
  */
 public class HUD {
 	private JPanel north;
@@ -19,12 +23,19 @@ public class HUD {
 		
 	}
 	
-	public void setNorth(boolean points, boolean stack, boolean level, boolean timer) {
+	/**
+	 * Determines which hud components to load
+	 * @param points
+	 * @param stack
+	 * @param level
+	 * @param timer
+	 */
+	public void setNorth(boolean level, boolean stack, boolean points, boolean timer) {
 		north = new JPanel();
 		
-		if(points) {
-			nPoints = new JLabel("Points: 0");
-			north.add(nPoints);
+		if(level) {
+			nLevel = new JLabel("Level 1");
+			north.add(nLevel);
 		}
 		
 		if(stack) {
@@ -32,20 +43,19 @@ public class HUD {
 			north.add(nStack);
 		}
 		
-		if(level) {
-			nLevel = new JLabel("Level 1");
-			north.add(nLevel);
+		if(points) {
+			nPoints = new JLabel("Points: 0");
+			north.add(nPoints);
 		}
 		
 		if(timer) {
 			nTimer = new JLabel("Time: 600");
 			north.add(nTimer);
 		}
-		
-			
-		
+
 	}
 	
+	//public void updateNorth(String level, String stack, String points, String timer) {
 	public void updateNorth(String points, String stack, String level, String timer) {
 		if(points != null)
 			nPoints.setText(points);
